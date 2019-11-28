@@ -14,15 +14,9 @@ def get_fact():
 def get_piglatin(input):
     request_url = "http://hidden-journey-62459.herokuapp.com/piglatinize/"
     param_data = {"input_text": input}
-    response = requests.post(request_url, param_data)
-    # result = response.headers['Location']
-    result = "<ul>"
-    result += "<p>"+param_data["input_text"]+"</p>"
-    for i in response.headers:
-        result += "<li>" + i + " | " + response.headers[i] + "</li>"
-    result += "<ul>"
-    result += "<p>" + response.text + "</p>"
-    result += "<p>Is redirect: " + str(response.is_redirect) + "</p>"
+    extra_headers = {"allow_redirects": False}
+    response = requests.post(request_url, param_data, **extra_headers)
+    result = response.headers['Location']
     return result
 
 @app.route('/')
